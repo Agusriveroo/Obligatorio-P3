@@ -1,0 +1,59 @@
+﻿using Libreria.LogicaNegocio.Entidades;
+using Libreria.LogicaNegocio.InterfacesRepositorios;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Libreria.LogicaAccesoDatos.Repositorios
+{
+    public class RepositorioUsuario : IRepositorioUsuario
+    {
+        private ApplicationDbContext _context;
+
+        public RepositorioUsuario(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public int Add(Usuario nuevo)
+        {
+            _context.Usuarios.Add(nuevo);
+            _context.SaveChanges();
+            return nuevo.Id;
+        }
+
+        public void Delete(int id)
+        {
+            var item = _context.Usuarios.FirstOrDefault(x => x.Id == id);
+          
+                _context.Usuarios.Remove(item);
+                _context.SaveChanges();
+          
+         
+        }
+
+        public Usuario FindByEmail(string email)
+        {
+            return _context.Usuarios.Where(x => x.Email == email).SingleOrDefault();
+        }
+
+        public List<Usuario> GetAll()
+        {
+            return _context.Usuarios.ToList();
+        }
+
+        public Usuario GetById(int id)
+        {   
+            return _context.Usuarios.Find(id);
+        }
+
+        public int Update(Usuario u)
+        {
+            _context.Usuarios.Update(u);
+            _context.SaveChanges();
+            return u.Id;
+        }
+    }
+}

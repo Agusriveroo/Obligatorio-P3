@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Libreria.DTOs.DTOs.DTOsEnvio.DTOListarEnvio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista envios en proceso</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEnvio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PesoPaquete)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEnvio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PesoPaquete)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IdEnvio }) |
+              
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

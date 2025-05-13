@@ -1,0 +1,77 @@
+﻿@model WebApp.Models.AltaUsuarioViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>AltaUsuarioViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div class="form-group">
+                <label asp-for="DtoUsuario.Nombre" class="control-label"></label>
+                <input asp-for="DtoUsuario.Nombre" class="form-control" />
+                <span asp-validation-for="DtoUsuario.Nombre" class="text-danger"></span>
+            </div>
+
+         
+            <div class="form-group">
+                <label asp-for="DtoUsuario.Apellido" class="control-label"></label>
+                <input asp-for="DtoUsuario.Apellido" class="form-control" />
+                <span asp-validation-for="DtoUsuario.Apellido" class="text-danger"></span>
+            </div>
+
+          
+            <div class="form-group">
+                <label asp-for="DtoUsuario.Edad" class="control-label"></label>
+                <input asp-for="DtoUsuario.Edad" class="form-control" />
+                <span asp-validation-for="DtoUsuario.Edad" class="text-danger"></span>
+            </div>
+
+         
+            <div class="form-group">
+                <label asp-for="DtoUsuario.Email" class="control-label"></label>
+                <input asp-for="DtoUsuario.Email" class="form-control" />
+                <span asp-validation-for="DtoUsuario.Email" class="text-danger"></span>
+            </div>
+
+     
+            <div class="form-group">
+                <label asp-for="DtoUsuario.Password" class="control-label"></label>
+                <input asp-for="DtoUsuario.Password" class="form-control" />
+                <span asp-validation-for="DtoUsuario.Password" class="text-danger"></span>
+            </div>
+
+         
+            <div class="form-group">
+                <label>Roles</label>
+                <select asp-for="DtoUsuario.Rol" asp-items="Model.Roles" class="form-control">
+                    <option value="">Seleccione un rol...</option>
+                </select>
+            </div>
+
+            <div>@ViewBag.msg</div>
+          
+
+
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
