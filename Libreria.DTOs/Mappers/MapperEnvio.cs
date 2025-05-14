@@ -13,21 +13,22 @@ namespace Libreria.DTOs.Mappers
     public class MapperEnvio
     {
 
-        public static Envio FromDtoAltaEnvioToEnvio(DTOAltaEnvio dto, string emailCliente,Usuario u,Agencia? agenciaRetiro)
+        public static Envio FromDtoAltaEnvioToEnvio(DTOAltaEnvio dto, string emailCliente, Usuario? u, Agencia? agenciaRetiro)
         {
             Envio eC;
-          
+
             if (dto.TipoEnvio.Equals("comun"))
             {
-                eC = new Comun(agenciaRetiro, u, emailCliente, dto.PesoPaquete, EstadoEnvio.EN_PROCESO);
+                eC = new Comun(agenciaRetiro, null, emailCliente, dto.PesoPaquete, EstadoEnvio.EN_PROCESO);
             }
             else
-            {   
+            {
                 eC = new Urgente(dto.DireccionPostal, null, u, emailCliente, dto.PesoPaquete, EstadoEnvio.EN_PROCESO);
             }
 
             return eC;
         }
+
 
 
 

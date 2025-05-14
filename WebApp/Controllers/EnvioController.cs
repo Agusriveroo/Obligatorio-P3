@@ -1,8 +1,13 @@
-﻿using Libreria.DTOs.DTOs.DTOsEnvio;
+﻿using Libreria.DTOs.DTOs.DTOsDetalleEnvio;
+using Libreria.DTOs.DTOs.DTOsEnvio;
 using Libreria.DTOs.DTOs.DTOsUsuario;
 using Libreria.LogicaAplicacion.ICasosUso.ICUAgencia;
+using Libreria.LogicaAplicacion.ICasosUso.ICUDetalleEnvio;
 using Libreria.LogicaAplicacion.ICasosUso.ICUEnvio;
+using Libreria.LogicaAplicacion.ICasosUso.ICUUsuario;
+using Libreria.LogicaNegocio.Entidades;
 using Libreria.LogicaNegocio.Enum;
+using Libreria.LogicaNegocio.InterfacesRepositorios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
@@ -17,14 +22,20 @@ namespace WebApp.Controllers
         private ICUListarEnvios _cUListarEnvios;
         private ICUObtenerEnvio _cUObtenerEnvio;
         private ICUEditarEnvio _cUEditarEnvio;
+        private ICUAgregarComentario _cUAgregarComentario;  
+        private ICUObtenerDetalles _cUObtenerDetalles;
 
-        public EnvioController(ICUObtenerAgencias cUObteneragencias, ICUAltaEnvio cUAltaEnvio, ICUListarEnvios cUListarEnvios, ICUObtenerEnvio cUObtenerEnvio, ICUEditarEnvio cUEditarEnvio)
+
+        public EnvioController(ICUObtenerAgencias cUObteneragencias, ICUAltaEnvio cUAltaEnvio, ICUListarEnvios cUListarEnvios, ICUObtenerEnvio cUObtenerEnvio, ICUEditarEnvio cUEditarEnvio, ICUAgregarComentario cUAgregarComentario, ICUObtenerDetalles cUObtenerDetalles)
         {
             _cUObteneragencias = cUObteneragencias;
             _cUAltaEnvio = cUAltaEnvio;
             _cUListarEnvios = cUListarEnvios;
             _cUObtenerEnvio = cUObtenerEnvio;
             _cUEditarEnvio = cUEditarEnvio;
+            _cUAgregarComentario = cUAgregarComentario;
+            _cUObtenerDetalles = cUObtenerDetalles;
+
         }
 
         public IActionResult Index()
@@ -57,12 +68,11 @@ namespace WebApp.Controllers
             {
                 vm.Dto.LogueadoId = HttpContext.Session.GetInt32("LogueadoId");
 
-                if (vm.Dto.LogueadoId == null)
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-
-      
+                // if (vm.Dto.LogueadoId == null)
+                //{
+                //  return RedirectToAction("Login", "Usuario");
+                //}
+                // Si el cliente no está logueado, no asignamos un LogueadoId.
 
                 _cUAltaEnvio.AltaEnvio(vm.Dto);
 
@@ -92,5 +102,58 @@ namespace WebApp.Controllers
             _cUEditarEnvio.EditarEnvio(dto);
             return RedirectToAction("Index","Envio");
         }
+
+
+        public IActionResult Detalle(int id)
+        {
+
+            int? logueadoId = HttpContext.Session.GetInt32("LogueadoId");
+
+            try
+            {
+                var envio = _cUObtenerEnvio.ObtenerEnvio(id);
+
+                var nuevoDetalle = new DTODetalle
+                {
+                    EnvioId = envio.IdEnvio,
+                    Fecha = DateTime.Now,
+                    LogueadoId = logueadoId,
+                };
+
+                var detalles = _cUObtenerDetalles.ObtenerDetalles(id);
+
+         
+                detalles.Add(nuevoDetalle);
+
+                return View(detalles);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "No se pudo preparar el formulario: " + ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult Detalle(int EnvioId, string Comentario)
+        {
+            int? logueadoId = HttpContext.Session.GetInt32("LogueadoId");
+
+            try
+            {
+                _cUAgregarComentario.AgregarComentario(EnvioId, logueadoId, Comentario);
+                Console.WriteLine("Completado correctamente");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+               
+                ViewBag.Error = "No se pudo agregar el comentario: " + ex.Message;
+                Console.WriteLine(ViewBag.Error);
+                return RedirectToAction("Index");
+            }
+        }
+
     }
 }

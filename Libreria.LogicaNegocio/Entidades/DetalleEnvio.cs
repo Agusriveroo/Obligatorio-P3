@@ -14,10 +14,22 @@ namespace Libreria.LogicaNegocio.Entidades
         public string? Comentario { get; set; }
 
         public DateTime Fecha { get; set; }
-        public required Usuario Empleado { get; set; }
+        public int? EmpleadoId { get; set; }  
+        public Usuario? Empleado { get; set; }
+        public int EnvioId { get; set; }
+        public Envio? Envio { get; set; }
 
-        public required Envio Envio { get; set; }
+        public DetalleEnvio()
+        {
+            
+        }
 
-
+        public DetalleEnvio(string? comentario, DateTime fecha, Usuario empleado, Envio envio)
+        {
+            Comentario = comentario;
+            Fecha = fecha;
+            Empleado = empleado;
+            Envio = envio;
+        }
     }
 }
