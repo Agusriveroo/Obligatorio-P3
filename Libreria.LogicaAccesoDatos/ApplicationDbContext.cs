@@ -13,6 +13,7 @@ namespace Libreria.LogicaAccesoDatos
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
         public DbSet<Agencia> Agencias { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
@@ -30,6 +31,7 @@ namespace Libreria.LogicaAccesoDatos
                 .HasOne(e => e.Empleado)
                 .WithMany()
                 .HasForeignKey(e => e.EmpleadoId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict); 
 
             modelBuilder.Entity<Envio>()

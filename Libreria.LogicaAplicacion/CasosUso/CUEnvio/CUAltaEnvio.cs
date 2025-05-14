@@ -29,32 +29,35 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
         }
         public void AltaEnvio(DTOAltaEnvio dto)
         {
-
             try
             {
                 Agencia agenciaRetiro = _repoAgencia.GetById(dto.AgenciaRetiroId);
-                Usuario empleado = _repoUsuario.GetById((int)dto.LogueadoId);
+             
+                Usuario? empleado = null;
+                if (dto.LogueadoId.HasValue)
+                {
+                    empleado = _repoUsuario.GetById(dto.LogueadoId.Value);
+                }
+
+
                 string emailCliente = dto.EmailCliente;
 
-                if (dto.LogueadoId == null)
-                    throw new Exception("No se encontró el empleado con ese ID.");
                 Envio e = MapperEnvio.FromDtoAltaEnvioToEnvio(dto, emailCliente, empleado, agenciaRetiro);
 
                 int idEntidad = _repositorioEnvio.Add(e);
 
-                RegistroAuditoria a = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ALTA, "Envio " + e.GetType().Name, idEntidad.ToString(),JsonSerializer.Serialize(e));
+                RegistroAuditoria a = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ALTA, "Envio " + e.GetType().Name, idEntidad.ToString(), JsonSerializer.Serialize(e));
                 _repoAuditoria.Auditar(a);
-
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                RegistroAuditoria a = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ALTA, "Envio " + e.GetType().Name, null, "ERROR" + e.Message);
+                string mensaje = ex.InnerException?.Message ?? ex.Message;
+                RegistroAuditoria a = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ALTA, "Envio " + ex.GetType().Name, null, "ERROR" + mensaje);
                 _repoAuditoria.Auditar(a);
 
-                throw e;
+                throw new Exception("No se pudo registrar el envío: " + mensaje);
             }
-            
-
         }
+
     }
 }

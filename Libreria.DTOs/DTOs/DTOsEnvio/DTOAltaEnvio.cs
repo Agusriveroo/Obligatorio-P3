@@ -11,7 +11,7 @@ namespace Libreria.DTOs.DTOs.DTOsEnvio
     public class DTOAltaEnvio
     {
         public int Id { get; set; }
-        public int EmpleadoId { get; set; } // quien está logueado y genera el envío
+        public int? EmpleadoId { get; set; } // quien está logueado y genera el envío
 
 
         public string EmailCliente { get; set; }

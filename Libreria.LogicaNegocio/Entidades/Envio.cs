@@ -13,7 +13,7 @@ namespace Libreria.LogicaNegocio.Entidades
 
         public string? NumeroTracking { get; set; }
 
-        public int EmpleadoId { get; set; }
+        public int? EmpleadoId { get; set; }
         public Usuario? Empleado { get; set; }  
 
         //public int ClienteId { get; set; }
@@ -23,6 +23,8 @@ namespace Libreria.LogicaNegocio.Entidades
 
         public EstadoEnvio Estado { get; set; } = EstadoEnvio.EN_PROCESO;
 
+        public List<DetalleEnvio> Detalles { get; set; } = new List<DetalleEnvio>();
+
         public DateTime Fecha{ get; set; } = DateTime.Now;
 
         public Envio()
@@ -30,15 +32,16 @@ namespace Libreria.LogicaNegocio.Entidades
             
         }
 
-        public Envio( Usuario? empleado, string emailCliente, double pesoPaquete, EstadoEnvio estado)
+        public Envio(Usuario? empleado, string emailCliente, double pesoPaquete, EstadoEnvio estado)
         {
-          
             Empleado = empleado;
             EmailCliente = emailCliente;
             PesoPaquete = pesoPaquete;
             Estado = estado;
             NumeroTracking = Guid.NewGuid().ToString();
+            Detalles = new List<DetalleEnvio>();
         }
+
     }
 
 

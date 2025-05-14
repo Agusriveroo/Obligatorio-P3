@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.IdEnvio }) |
+                    @Html.ActionLink("Finalizar envio", "Edit", new { id = item.IdEnvio }) | @Html.ActionLink("Agregar comentario de status", "Detalle", new { id = item.IdEnvio })
               
             </td>
         </tr>

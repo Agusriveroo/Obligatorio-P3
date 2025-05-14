@@ -1,9 +1,11 @@
 using Libreria.LogicaAccesoDatos;
 using Libreria.LogicaAccesoDatos.Repositorios;
 using Libreria.LogicaAplicacion.CasosUso.CUAgencia;
+using Libreria.LogicaAplicacion.CasosUso.CUDetalleEnvio;
 using Libreria.LogicaAplicacion.CasosUso.CUEnvio;
 using Libreria.LogicaAplicacion.CasosUso.CUUsuario;
 using Libreria.LogicaAplicacion.ICasosUso.ICUAgencia;
+using Libreria.LogicaAplicacion.ICasosUso.ICUDetalleEnvio;
 using Libreria.LogicaAplicacion.ICasosUso.ICUEnvio;
 using Libreria.LogicaAplicacion.ICasosUso.ICUUsuario;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
@@ -34,6 +36,7 @@ namespace WebApp
             builder.Services.AddScoped<IRepositorioAuditoria, RepositorioAuditoria>();
             builder.Services.AddScoped<IRepositorioAgencia, RepositorioAgencia>();  
             builder.Services.AddScoped<IRepositorioEnvio, RepositorioEnvio>();
+            builder.Services.AddScoped<IRepositorioDetalleEnvio, RepositorioDetalleEnvio>();
 
 
             //ID - CASOS DE USO
@@ -56,6 +59,12 @@ namespace WebApp
             builder.Services.AddScoped<ICUListarEnvios, CUListarEnvios>();
             builder.Services.AddScoped<ICUEditarEnvio, CUEditarEnvio>();
             builder.Services.AddScoped<ICUObtenerEnvio, CUObtenerEnvio>();
+
+            //DETALLE ENVIO
+            builder.Services.AddScoped<ICUAgregarComentario, CUAgregarComentario>();
+            builder.Services.AddScoped<ICUObtenerDetalles, CUObtenerDetalles>();
+
+
 
 
 
