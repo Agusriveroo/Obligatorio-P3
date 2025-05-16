@@ -59,6 +59,7 @@ namespace WebApp
             builder.Services.AddScoped<ICUListarEnvios, CUListarEnvios>();
             builder.Services.AddScoped<ICUEditarEnvio, CUEditarEnvio>();
             builder.Services.AddScoped<ICUObtenerEnvio, CUObtenerEnvio>();
+            builder.Services.AddScoped<ICUObtenerEnvioPorTracking, CUObtenerEnvioPorTracking>();
 
             //DETALLE ENVIO
             builder.Services.AddScoped<ICUAgregarComentario, CUAgregarComentario>();

@@ -1,8 +1,6 @@
 ﻿using Libreria.DTOs.DTOs.DTOsEnvio;
 using Libreria.DTOs.Mappers;
 using Libreria.LogicaAplicacion.ICasosUso.ICUEnvio;
-using Libreria.LogicaNegocio.CustomExceptions.EnvioExceptions;
-using Libreria.LogicaNegocio.CustomExceptions.UsuarioExceptions;
 using Libreria.LogicaNegocio.Entidades;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
 using System;
@@ -13,22 +11,25 @@ using System.Threading.Tasks;
 
 namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
 {
-    public class CUObtenerEnvio : ICUObtenerEnvio
+    public class CUObtenerEnvioPorTracking : ICUObtenerEnvioPorTracking
     {
         private IRepositorioEnvio _repoEnvio;
+        
 
-        public CUObtenerEnvio(IRepositorioEnvio repositorioEnvio)
+        public CUObtenerEnvioPorTracking(IRepositorioEnvio repositorioEnvio)
         {
             _repoEnvio = repositorioEnvio;
+           
         }
-        public DTOListarEnvio ObtenerEnvio(int id)
+
+        public DTOEnvioConDetalles ObtenerPorTracking(string tracking)
         {
-           Envio e = _repoEnvio.GetById(id);
+            Envio e = _repoEnvio.GetByTracking(tracking);
 
-            if (e == null)
-                throw new EnvioNoEncontradoException();
+            if (e == null) throw new Exception($"No se encontró un envío con el número de tracking '{tracking}'.");
 
-           return MapperEnvio.FromEnvioToDto(e);
+            return MapperEnvio.FromEnvioToDtoConDetalles(e);
+           
         }
     }
 }

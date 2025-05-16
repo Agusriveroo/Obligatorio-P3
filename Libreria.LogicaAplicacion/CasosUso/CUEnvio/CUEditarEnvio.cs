@@ -32,12 +32,10 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
             {
                 
                 Envio e = MapperEnvio.FromDtoEnvioToEnvio(dto);
-                if (string.IsNullOrEmpty(e.EmailCliente))
-                {
-                    throw new ArgumentException("El EmailCliente no puede ser nulo");
-                }
+                if (string.IsNullOrWhiteSpace(e.EmailCliente))
+                    throw new EmailClienteException();
 
-                e.Estado = dto.Estado;
+                e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);
                 int r = _repoEnvio.Update(e);
 
                 RegistroAuditoria aud = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ACTUALIZAR, "Envio", r.ToString(), dto.Estado.ToString());

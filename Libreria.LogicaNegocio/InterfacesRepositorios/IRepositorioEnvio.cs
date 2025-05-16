@@ -9,5 +9,6 @@ namespace Libreria.LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioEnvio: IRepositorio<Envio>
     {
+        Envio GetByTracking(string tracking);
     }
 }

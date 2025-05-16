@@ -18,7 +18,7 @@ namespace Libreria.DTOs.DTOs.DTOsUsuario
         public string? Nombre { get; set; }
 
         public int Edad { get; set; }
-        public RolUsuario Rol { get; set; } 
+        public string Rol { get; set; } 
         public string? Apellido { get; set; }
 
         public int? LogueadoId { get; set; }    

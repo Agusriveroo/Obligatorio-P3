@@ -16,7 +16,7 @@ namespace Libreria.DTOs.Mappers
 
             string passHashed = Utilidades.Cripto.HashPasswordConBcrypt(dto.Password,12);
 
-            Usuario usuario = new Usuario(dto.Nombre, dto.Apellido, dto.Edad, dto.Email, passHashed, dto.Rol);
+            Usuario usuario = new Usuario(dto.Nombre, dto.Apellido, dto.Edad, dto.Email, passHashed, Enum.Parse<RolUsuario>(dto.Rol));
 
             return usuario;
         }
@@ -27,7 +27,7 @@ namespace Libreria.DTOs.Mappers
             dto.Id = usuario.Id;
             dto.Nombre = usuario.Nombre;
             dto.Apellido = usuario.Apellido;
-            dto.Rol = usuario.Rol;
+            dto.Rol = usuario.Rol.ToString();
             dto.Email = usuario.Email;
             dto.Edad = usuario.Edad;
             dto.Password = usuario.Password;
@@ -42,7 +42,7 @@ namespace Libreria.DTOs.Mappers
             u.Apellido = dto.Apellido;
             u.Edad = dto.Edad;
             u.Email = dto.Email;
-            u.Rol = dto.Rol;
+            u.Rol = Enum.Parse<RolUsuario>(dto.Rol);
             u.Password = dto.Password;
             return u;
 
@@ -64,7 +64,7 @@ namespace Libreria.DTOs.Mappers
                 dto.Apellido = u.Apellido;
                 dto.Edad = u.Edad;
                 dto.Email = u.Email;
-                dto.Rol = u.Rol;
+                dto.Rol = u.Rol.ToString();
 
                 ret.Add(dto);
 
