@@ -1,6 +1,7 @@
 ﻿using Libreria.DTOs.DTOs.DTOsUsuario;
 using Libreria.DTOs.Mappers;
 using Libreria.LogicaAplicacion.ICasosUso.ICUUsuario;
+using Libreria.LogicaNegocio.CustomExceptions.UsuarioExceptions;
 using Libreria.LogicaNegocio.Entidades;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
 using System;
@@ -22,7 +23,11 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUUsuario
 
         public DTOUsuario ObtenerUsuario(int id)
         {
+
             Usuario u = _repoUsuario.GetById(id);
+
+            if (u == null)
+                throw new UsuarioNoEncontradoException();
 
             return MapperUsuario.FromUsuarioToDto(u);
         }

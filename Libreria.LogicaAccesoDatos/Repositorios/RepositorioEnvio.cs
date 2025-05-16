@@ -1,5 +1,6 @@
 ﻿using Libreria.LogicaNegocio.Entidades;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,11 @@ namespace Libreria.LogicaAccesoDatos.Repositorios
         public Envio GetById(int id)
         {
             return _context.Envios.Find(id);
+        }
+
+        public Envio GetByTracking(string tracking)
+        {
+            return _context.Envios.Include(e => e.Detalles).FirstOrDefault(e => e.NumeroTracking == tracking);
         }
 
         public int Update(Envio e)

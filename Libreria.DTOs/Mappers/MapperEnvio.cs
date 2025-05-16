@@ -5,6 +5,7 @@ using Libreria.LogicaNegocio.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,7 +43,7 @@ namespace Libreria.DTOs.Mappers
                 dto.IdEnvio = e.Id;
                 dto.EmailCliente = e.EmailCliente;
                 dto.PesoPaquete = e.PesoPaquete;
-                dto.Estado = e.Estado;
+                dto.Estado = e.Estado.ToString();
 
                 ret.Add(dto);
 
@@ -57,7 +58,7 @@ namespace Libreria.DTOs.Mappers
             e.EmpleadoId = (int)dto.LogueadoId;
             e.EmailCliente = dto.EmailCliente;
             e.PesoPaquete = dto.PesoPaquete;
-            e.Estado = dto.Estado;
+            e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);
             e.Fecha = dto.FechaFinalizacion;
             return e;
 
@@ -70,10 +71,32 @@ namespace Libreria.DTOs.Mappers
             dto.IdEnvio = e.Id;
             dto.EmailCliente = e.EmailCliente;
             dto.PesoPaquete = e.PesoPaquete;
-            dto.Estado = e.Estado;
+            dto.Estado = e.Estado.ToString();
             dto.FechaFinalizacion = e.Fecha;
             return dto;
         }
+
+        public static DTOEnvioConDetalles FromEnvioToDtoConDetalles(Envio e) {
+
+            return new DTOEnvioConDetalles
+            {
+
+                NumeroTracking = e.NumeroTracking,
+                EmailCliente = e.EmailCliente,
+                PesoPaquete = e.PesoPaquete,
+                Estado = e.Estado.ToString(),
+                Detalles = e.Detalles.Select(d => new DTODetallesParaEnvios
+                {
+                    Comentario = d.Comentario,
+                    Fecha = d.Fecha
+                }).ToList()
+
+            };
+        
+        }
+
+       
+
 
 
     }

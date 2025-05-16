@@ -30,7 +30,7 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUUsuario
             {
 
                 Usuario u = _repoUsuario.GetById(id);
-                if (u == null) throw new Exception("Usuario no encontrado");
+                if (u == null) throw new UsuarioNoEncontradoException();
 
                 _repoUsuario.Delete(id);
 

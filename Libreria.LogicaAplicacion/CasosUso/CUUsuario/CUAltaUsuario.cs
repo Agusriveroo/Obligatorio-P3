@@ -2,9 +2,11 @@
 using Libreria.DTOs.Mappers;
 using Libreria.LogicaAccesoDatos.Repositorios;
 using Libreria.LogicaAplicacion.ICasosUso.ICUUsuario;
+using Libreria.LogicaNegocio.CustomExceptions.UsuarioExceptions;
 using Libreria.LogicaNegocio.Entidades;
 using Libreria.LogicaNegocio.Enum;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +34,12 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUUsuario
             try
             {
                 Usuario u = MapperUsuario.FromDtoAltaUsuario(nuevo);
+
+                if (string.IsNullOrEmpty(u.Nombre)) throw new NombreUsuarioException();
+        
+                if (u.Edad < 18) throw new EdadMinimaException();
+          
+                
                 int idEntidad = _repoUsuario.Add(u);
 
                 RegistroAuditoria a = new RegistroAuditoria(nuevo.LogueadoId, AccionesAuditoria.ALTA, u.GetType().Name, idEntidad.ToString(), "Alta correcta");
@@ -43,7 +51,7 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUUsuario
             {
                 RegistroAuditoria a = new RegistroAuditoria(nuevo.LogueadoId, AccionesAuditoria.ALTA, "Usuario", null, "ERROR" + e.Message);
                 _repoAuditoria.Auditar(a);
-                throw e;
+                throw;
             }
 
 

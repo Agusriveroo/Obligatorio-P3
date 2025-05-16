@@ -98,20 +98,33 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult Edit(DTOListarEnvio dto)
         {
-            dto.LogueadoId = HttpContext.Session.GetInt32("LogueadoId");
-            _cUEditarEnvio.EditarEnvio(dto);
-            return RedirectToAction("Index","Envio");
+            try
+            {
+                dto.LogueadoId = HttpContext.Session.GetInt32("LogueadoId");
+                _cUEditarEnvio.EditarEnvio(dto);
+                return RedirectToAction("Index", "Envio");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "No se pudo editar el envío: " + ex.Message;
+                return View(dto);
+            }
         }
 
 
         public IActionResult Detalle(int id)
         {
-
             int? logueadoId = HttpContext.Session.GetInt32("LogueadoId");
 
             try
             {
                 var envio = _cUObtenerEnvio.ObtenerEnvio(id);
+
+                if (envio == null)
+                {
+                    TempData["Error"] = "No se encontró el envío.";
+                    return RedirectToAction("Index");
+                }
 
                 var nuevoDetalle = new DTODetalle
                 {
@@ -121,15 +134,13 @@ namespace WebApp.Controllers
                 };
 
                 var detalles = _cUObtenerDetalles.ObtenerDetalles(id);
-
-         
                 detalles.Add(nuevoDetalle);
 
                 return View(detalles);
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "No se pudo preparar el formulario: " + ex.Message;
+                TempData["Error"] = "No se pudo preparar el formulario: " + ex.Message;
                 return RedirectToAction("Index");
             }
         }

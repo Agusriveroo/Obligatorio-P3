@@ -36,6 +36,9 @@ namespace WebApp.Controllers
             CUDeleteUsuario = cUDeleteUsuario;
             _cuDetalleUsuario = cUDetalleUsuario;
         }
+
+        [EmpleadoAuthorize]
+        [LogueadoAuthorize]
         public IActionResult Index()
         {
             
@@ -47,7 +50,7 @@ namespace WebApp.Controllers
 
 
         [LogueadoAuthorize]
-        [EmpleadoAuthorize]
+        [GerenteAuthorize]
         public IActionResult Create() {
 
         
@@ -68,7 +71,11 @@ namespace WebApp.Controllers
         
         }
 
+
+        [LogueadoAuthorize]
+        [GerenteAuthorize]
         [HttpPost]
+
         public IActionResult Create(AltaUsuarioViewModel vm)
         {
 
@@ -103,6 +110,8 @@ namespace WebApp.Controllers
                                      abc1234 
                             FUN -> sfernandez@gmail.com
                                     ejemplo1234567
+                            FUN -> jhernandez@gmail.com
+                                    ej1234
             */
 
             return View();
@@ -142,6 +151,8 @@ namespace WebApp.Controllers
 
 
 
+        [LogueadoAuthorize]
+        [GerenteAuthorize]
 
         public IActionResult Edit(int id) 
         {
@@ -150,6 +161,9 @@ namespace WebApp.Controllers
         
         }
 
+
+        [LogueadoAuthorize]
+        [GerenteAuthorize]
         [HttpPost]
         public IActionResult Edit(DTOUsuario dto)
         {
@@ -183,6 +197,8 @@ namespace WebApp.Controllers
         }
 
 
+        [LogueadoAuthorize]
+        [GerenteAuthorize]
         public IActionResult Delete(int id)
         {
             DTOUsuario model = _cuObtenerUsuario.ObtenerUsuario(id);
@@ -190,6 +206,9 @@ namespace WebApp.Controllers
         }
 
 
+
+        [LogueadoAuthorize]
+        [GerenteAuthorize]
         [HttpPost]
         public IActionResult Delete(DTOUsuario model)
         {
@@ -213,6 +232,8 @@ namespace WebApp.Controllers
 
 
 
+        [LogueadoAuthorize]
+        [GerenteAuthorize]
         public IActionResult Details(int id) 
         {
 

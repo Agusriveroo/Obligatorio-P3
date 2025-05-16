@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Filtros
 {
-    public class EmpleadoAuthorize : ActionFilterAttribute
+    public class GerenteAuthorize : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var rol = context.HttpContext.Session.GetString("LogueadoRol");
 
-            if (rol != "Administrador" && rol != "Funcionario")
+            if (rol != "Administrador")
             {
                 context.Result = new RedirectToActionResult("AccesoDenegado", "Usuario", null);
             }
@@ -17,7 +17,4 @@ namespace WebApp.Filtros
             base.OnActionExecuting(context);
         }
     }
-
-
-
 }

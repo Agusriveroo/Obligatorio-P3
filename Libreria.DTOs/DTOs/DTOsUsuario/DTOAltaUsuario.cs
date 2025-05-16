@@ -29,7 +29,7 @@ namespace Libreria.DTOs.DTOs.DTOsUsuario
         public string? Password { get; set; }
 
         [Required(ErrorMessage = "Debe seleccionar un rol")]
-        public RolUsuario Rol { get; set; }
+        public string Rol { get; set; }
 
 
         public int? LogueadoId { get; set; }
