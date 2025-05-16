@@ -35,11 +35,11 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUUsuario
             {
                 Usuario u = MapperUsuario.FromDtoAltaUsuario(nuevo);
 
-                if (string.IsNullOrEmpty(u.Nombre)) throw new NombreUsuarioException();
+                if (string.IsNullOrEmpty(u.NombreCompleto.Nombre) || string.IsNullOrEmpty(u.NombreCompleto.Apellido)) throw new NombreUsuarioException();
         
                 if (u.Edad < 18) throw new EdadMinimaException();
-          
-                
+
+                Console.WriteLine("{u.NombreCompleto}'");
                 int idEntidad = _repoUsuario.Add(u);
 
                 RegistroAuditoria a = new RegistroAuditoria(nuevo.LogueadoId, AccionesAuditoria.ALTA, u.GetType().Name, idEntidad.ToString(), "Alta correcta");

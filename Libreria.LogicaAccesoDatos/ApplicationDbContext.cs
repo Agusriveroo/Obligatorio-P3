@@ -42,6 +42,24 @@ namespace Libreria.LogicaAccesoDatos
             modelBuilder.Entity<Envio>()
                 .Property(e => e.Estado)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.OwnsOne(u => u.NombreCompleto, vo =>
+                {
+                    vo.Property(v => v.Nombre).HasColumnName("Nombre");
+                    vo.Property(v => v.Apellido).HasColumnName("Apellido");
+                });
+            });
+
+            modelBuilder.Entity<Agencia>(entity =>
+            {
+                entity.OwnsOne(a => a.Ubicacion, vo =>
+                {
+                    vo.Property(v => v.Latitud).HasColumnName("Latitud");
+                    vo.Property(v => v.Longitud).HasColumnName("Longitud");
+                });
+            });
         }
 
     }

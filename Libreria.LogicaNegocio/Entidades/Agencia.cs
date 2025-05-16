@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Libreria.LogicaNegocio.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,6 @@ namespace Libreria.LogicaNegocio.Entidades
 
         public string DireccionPostal {get; set;}
 
-        public double Latitud { get; set; }
-
-        public double Longitud { get; set;}
+        public VOUbicacionAgencia Ubicacion { get; set; }
     }
 }

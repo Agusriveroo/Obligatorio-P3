@@ -112,6 +112,8 @@ namespace WebApp.Controllers
                                     ejemplo1234567
                             FUN -> jhernandez@gmail.com
                                     ej1234
+                            ADMIN -> pgonzalez@gmail.com
+                                     pepe123
             */
 
             return View();

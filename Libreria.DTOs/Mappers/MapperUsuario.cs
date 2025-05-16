@@ -1,32 +1,41 @@
 ﻿using Libreria.DTOs.DTOs.DTOsUsuario;
 using Libreria.LogicaNegocio.Entidades;
 using Libreria.LogicaNegocio.Enum;
+using Libreria.LogicaNegocio.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Libreria.DTOs.Mappers
 {
     public class MapperUsuario
     {
-        public static Usuario FromDtoAltaUsuario(DTOAltaUsuario dto) 
-        { 
+        public static Usuario FromDtoAltaUsuario(DTOAltaUsuario dto)
+        {
+            string passHashed = Utilidades.Cripto.HashPasswordConBcrypt(dto.Password, 12);
+            var nombreCompleto = new VONombreCompleto(dto.Nombre, dto.Apellido);
+            Usuario usuario = new Usuario(
+                nombreCompleto,
+                dto.Edad,
+                dto.Email,
+                passHashed,
+                Enum.Parse<RolUsuario>(dto.Rol)
+            );
 
-            string passHashed = Utilidades.Cripto.HashPasswordConBcrypt(dto.Password,12);
-
-            Usuario usuario = new Usuario(dto.Nombre, dto.Apellido, dto.Edad, dto.Email, passHashed, Enum.Parse<RolUsuario>(dto.Rol));
 
             return usuario;
         }
+
 
         public static DTOUsuario FromUsuarioToDto(Usuario usuario)
         {
             DTOUsuario dto = new DTOUsuario();
             dto.Id = usuario.Id;
-            dto.Nombre = usuario.Nombre;
-            dto.Apellido = usuario.Apellido;
+            dto.Nombre = usuario.NombreCompleto.Nombre;
+            dto.Apellido = usuario.NombreCompleto.Apellido;
             dto.Rol = usuario.Rol.ToString();
             dto.Email = usuario.Email;
             dto.Edad = usuario.Edad;
@@ -38,8 +47,7 @@ namespace Libreria.DTOs.Mappers
         
             Usuario u = new Usuario();
             u.Id = dto.Id;
-            u.Nombre = dto.Nombre;
-            u.Apellido = dto.Apellido;
+            u.NombreCompleto = new VONombreCompleto(dto.Nombre, dto.Apellido);
             u.Edad = dto.Edad;
             u.Email = dto.Email;
             u.Rol = Enum.Parse<RolUsuario>(dto.Rol);
@@ -60,8 +68,8 @@ namespace Libreria.DTOs.Mappers
             {
                 DTOListarEmpleado dto = new DTOListarEmpleado();
                 dto.Id = u.Id;
-                dto.Nombre = u.Nombre;
-                dto.Apellido = u.Apellido;
+                dto.Nombre = u.NombreCompleto.Nombre;
+                dto.Apellido = u.NombreCompleto.Apellido;
                 dto.Edad = u.Edad;
                 dto.Email = u.Email;
                 dto.Rol = u.Rol.ToString();

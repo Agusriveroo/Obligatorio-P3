@@ -1,5 +1,6 @@
 ﻿using Libreria.LogicaNegocio.CustomExceptions.UsuarioExceptions;
 using Libreria.LogicaNegocio.Enum;
+using Libreria.LogicaNegocio.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,7 @@ namespace Libreria.LogicaNegocio.Entidades
     {
         public int Id { get; set; }
 
-        public string Nombre { get; set; }
-
-        public string Apellido { get; set; }
+        public VONombreCompleto NombreCompleto { get; set; } 
 
         public int Edad { get; set; }
 
@@ -29,10 +28,9 @@ namespace Libreria.LogicaNegocio.Entidades
             
         }
 
-        public Usuario(string nombre, string apellido, int edad, string email, string password, RolUsuario rol)
+        public Usuario(VONombreCompleto nombreCompleto, int edad, string email, string password, RolUsuario rol)
         {
-            Nombre = nombre;
-            Apellido = apellido;
+            NombreCompleto = nombreCompleto;
             Edad = edad;
             Email = email;
             Password = password;
@@ -45,11 +43,6 @@ namespace Libreria.LogicaNegocio.Entidades
             if (Edad < 18) 
             {
                 throw new EdadMinimaException();
-            }
-            if (String.IsNullOrEmpty(Nombre)) 
-            { 
-                throw new NombreUsuarioException("El nombre no cumple");
-
             }
         
         
