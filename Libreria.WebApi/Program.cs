@@ -3,10 +3,15 @@ using Libreria.LogicaAccesoDatos;
 using Libreria.LogicaAccesoDatos.Repositorios;
 using Libreria.LogicaAplicacion.CasosUso.CUDetalleEnvio;
 using Libreria.LogicaAplicacion.CasosUso.CUEnvio;
+using Libreria.LogicaAplicacion.CasosUso.CUUsuario;
 using Libreria.LogicaAplicacion.ICasosUso.ICUDetalleEnvio;
 using Libreria.LogicaAplicacion.ICasosUso.ICUEnvio;
+using Libreria.LogicaAplicacion.ICasosUso.ICUUsuario;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Libreria.WebApi
 {
@@ -38,15 +43,33 @@ namespace Libreria.WebApi
             builder.Services.AddScoped<IRepositorioDetalleEnvio, RepositorioDetalleEnvio>();
 
             //ID - CASOS DE USO
+            builder.Services.AddScoped<ICULogin, CULogin>();
+
 
             //ENVIO
             builder.Services.AddScoped<ICUObtenerEnvioPorTracking, CUObtenerEnvioPorTracking>();
 
-         
+
+            //JWT
+            //La clave debe ser almacenada en el json, o en el sistema operativo cuando esté en producción. 
+            var clave = "UTzl^7yPl$5xrT6&{7RZCSG&O42MEK89$CW1XXRrN(> XqIp{W4s2S5$> KT$6CG!2M]'ZlrqH-t%eI4.X9W~u#qO+oX£+[?7QDAa"; 
+            var claveCodificada = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(clave));
+                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        //Definir las verificaciones a realizar 
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = claveCodificada
+                    };
+                });
 
 
-
-            var app = builder.Build();
+                var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -57,6 +80,7 @@ namespace Libreria.WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

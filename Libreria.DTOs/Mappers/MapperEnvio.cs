@@ -55,7 +55,7 @@ namespace Libreria.DTOs.Mappers
         
             Envio e = new Envio();
             e.Id = dto.IdEnvio;
-            e.EmpleadoId = (int)dto.LogueadoId;
+            e.EmpleadoId = dto.LogueadoId;
             e.EmailCliente = dto.EmailCliente;
             e.PesoPaquete = dto.PesoPaquete;
             e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);
@@ -72,7 +72,7 @@ namespace Libreria.DTOs.Mappers
             dto.EmailCliente = e.EmailCliente;
             dto.PesoPaquete = e.PesoPaquete;
             dto.Estado = e.Estado.ToString();
-            dto.FechaFinalizacion = e.Fecha;
+            dto.FechaFinalizacion = DateTime.Now;
             return dto;
         }
 

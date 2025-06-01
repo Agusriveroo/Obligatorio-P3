@@ -1,4 +1,6 @@
-﻿using Libreria.LogicaNegocio.Enum;
+﻿using Libreria.LogicaNegocio.CustomExceptions.EnvioExceptions;
+using Libreria.LogicaNegocio.CustomExceptions.UsuarioExceptions;
+using Libreria.LogicaNegocio.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,7 @@ namespace Libreria.LogicaNegocio.Entidades
 
         public List<DetalleEnvio> Detalles { get; set; } = new List<DetalleEnvio>();
 
-        public DateTime Fecha{ get; set; } = DateTime.Now;
+        public DateTime? Fecha{ get; set; } = DateTime.Now;
 
         public Envio()
         {
@@ -40,11 +42,24 @@ namespace Libreria.LogicaNegocio.Entidades
             Estado = estado;
             NumeroTracking = Guid.NewGuid().ToString();
             Detalles = new List<DetalleEnvio>();
+            Validar();
         }
+
+        public void Validar()
+        {
+
+            if (PesoPaquete < 0)
+            {
+                throw new PesoNegativoExcepcion();
+            }
+
+
+        }
+
 
     }
 
-
+        
 
 
 
