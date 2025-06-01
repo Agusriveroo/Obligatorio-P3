@@ -101,6 +101,7 @@ namespace WebApp.Controllers
             try
             {
                 dto.LogueadoId = HttpContext.Session.GetInt32("LogueadoId");
+                
                 _cUEditarEnvio.EditarEnvio(dto);
                 return RedirectToAction("Index", "Envio");
             }

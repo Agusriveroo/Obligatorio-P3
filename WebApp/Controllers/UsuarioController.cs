@@ -215,9 +215,12 @@ namespace WebApp.Controllers
         public IActionResult Delete(DTOUsuario model)
         {
             int? loggId = HttpContext.Session.GetInt32("LogueadoId");
+          
+            
 
             if (loggId == null)
                 return RedirectToAction("Login", "Usuario");
+         
 
             try
             {

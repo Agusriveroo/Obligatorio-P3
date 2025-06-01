@@ -38,6 +38,8 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
                 e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);
                 int r = _repoEnvio.Update(e);
 
+                
+
                 RegistroAuditoria aud = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ACTUALIZAR, "Envio", r.ToString(), dto.Estado.ToString());
                 _repositorioAuditoria.Auditar(aud);
             }
