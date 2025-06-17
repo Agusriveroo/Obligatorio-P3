@@ -46,6 +46,7 @@ namespace Libreria.WebApi
 
 
             //ID - CASOS DE USO
+            builder.Services.AddScoped<ICULogin, CULogin>();
 
             //USUARIO
             builder.Services.AddScoped<ICUAltaUsuario, CUAltaUsuario>();

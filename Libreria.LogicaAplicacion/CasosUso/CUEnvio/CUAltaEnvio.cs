@@ -1,6 +1,7 @@
 ﻿using Libreria.DTOs.DTOs.DTOsEnvio;
 using Libreria.DTOs.Mappers;
 using Libreria.LogicaAplicacion.ICasosUso.ICUEnvio;
+using Libreria.LogicaNegocio.CustomExceptions.EnvioExceptions;
 using Libreria.LogicaNegocio.Entidades;
 using Libreria.LogicaNegocio.Enum;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
@@ -32,12 +33,13 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
             try
             {
                 Agencia agenciaRetiro = _repoAgencia.GetById(dto.AgenciaRetiroId);
-             
+
                 Usuario? empleado = null;
                 if (dto.LogueadoId.HasValue)
                 {
                     empleado = _repoUsuario.GetById(dto.LogueadoId.Value);
                 }
+
 
 
                 string emailCliente = dto.EmailCliente;
@@ -48,6 +50,10 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
 
                 RegistroAuditoria a = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ALTA, "Envio " + e.GetType().Name, idEntidad.ToString(), JsonSerializer.Serialize(e));
                 _repoAuditoria.Auditar(a);
+            }
+            catch (PesoNegativoExcepcion) 
+            {
+                throw;
             }
             catch (Exception ex)
             {
