@@ -114,6 +114,8 @@ namespace WebApp.Controllers
                                     ej1234
                             ADMIN -> pgonzalez@gmail.com
                                      pepe123
+                            CLI ->  rlopez@gmail.com
+                                    abc123
             */
 
             return View();

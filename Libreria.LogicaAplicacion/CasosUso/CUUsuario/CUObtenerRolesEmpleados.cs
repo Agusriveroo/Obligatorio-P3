@@ -18,7 +18,7 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUUsuario
                 new DTORol { Id = (int)RolUsuario.Administrador, Nombre = "Administrador" },
                 new DTORol { Id = (int)RolUsuario.Funcionario, Nombre = "Funcionario" },
                 //NOTE: EN CASO DE DAR DE ALTA CLIENTE AGREGAR ESTA LINEA
-                // new DTORol { Id = RolUsuario.Funcionario.ToString(), Nombre = "Cliente" },
+                new DTORol { Id = (int)RolUsuario.Cliente, Nombre = "Cliente" },
             };
         }
     }
