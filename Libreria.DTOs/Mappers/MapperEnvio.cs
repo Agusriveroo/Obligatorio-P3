@@ -14,17 +14,17 @@ namespace Libreria.DTOs.Mappers
     public class MapperEnvio
     {
 
-        public static Envio FromDtoAltaEnvioToEnvio(DTOAltaEnvio dto, string emailCliente, Usuario? u, Agencia? agenciaRetiro)
+        public static Envio FromDtoAltaEnvioToEnvio(DTOAltaEnvio dto, Usuario c, Usuario? u, Agencia? agenciaRetiro)
         {
             Envio eC;
 
             if (dto.TipoEnvio.Equals("comun"))
             {
-                eC = new Comun(agenciaRetiro, null, emailCliente, dto.PesoPaquete, EstadoEnvio.EN_PROCESO);
+                eC = new Comun(agenciaRetiro, null, c, dto.PesoPaquete, EstadoEnvio.EN_PROCESO);
             }
             else
             {
-                eC = new Urgente(dto.DireccionPostal, null, u, emailCliente, dto.PesoPaquete, EstadoEnvio.EN_PROCESO);
+                eC = new Urgente(dto.DireccionPostal, null, u,c, dto.PesoPaquete, EstadoEnvio.EN_PROCESO);
             }
 
             return eC;
@@ -41,9 +41,10 @@ namespace Libreria.DTOs.Mappers
             
                 DTOListarEnvio dto = new DTOListarEnvio();
                 dto.IdEnvio = e.Id;
-                dto.EmailCliente = e.EmailCliente;
+                dto.EmailCliente = e.Cliente.Email;
                 dto.PesoPaquete = e.PesoPaquete;
                 dto.Estado = e.Estado.ToString();
+                dto.FechaFinalizacion = (DateTime)e.Fecha;
 
                 ret.Add(dto);
 
@@ -56,7 +57,7 @@ namespace Libreria.DTOs.Mappers
             Envio e = new Envio();
             e.Id = dto.IdEnvio;
             e.EmpleadoId = dto.LogueadoId;
-            e.EmailCliente = dto.EmailCliente;
+            e.Cliente.Email = dto.EmailCliente;
             e.PesoPaquete = dto.PesoPaquete;
             e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);
             e.Fecha = dto.FechaFinalizacion;
@@ -69,10 +70,16 @@ namespace Libreria.DTOs.Mappers
         {
             DTOListarEnvio dto = new DTOListarEnvio();
             dto.IdEnvio = e.Id;
-            dto.EmailCliente = e.EmailCliente;
+            dto.NumeroTracking = e.NumeroTracking;
+            dto.EmailCliente = e.Cliente.Email;
             dto.PesoPaquete = e.PesoPaquete;
             dto.Estado = e.Estado.ToString();
             dto.FechaFinalizacion = DateTime.Now;
+            dto.Detalles = e.Detalles?.Select(d => new DTODetallesParaEnvios
+            {
+                Comentario = d.Comentario,
+                Fecha = d.Fecha
+            }).ToList() ?? new List<DTODetallesParaEnvios>();
             return dto;
         }
 
@@ -82,7 +89,7 @@ namespace Libreria.DTOs.Mappers
             {
 
                 NumeroTracking = e.NumeroTracking,
-                EmailCliente = e.EmailCliente,
+                EmailCliente = e.Cliente.Email,
                 PesoPaquete = e.PesoPaquete,
                 Estado = e.Estado.ToString(),
                 Detalles = e.Detalles.Select(d => new DTODetallesParaEnvios
@@ -95,7 +102,7 @@ namespace Libreria.DTOs.Mappers
         
         }
 
-       
+     
 
 
 

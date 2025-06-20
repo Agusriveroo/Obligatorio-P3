@@ -32,7 +32,7 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
             {
                 
                 Envio e = MapperEnvio.FromDtoEnvioToEnvio(dto);
-                if (string.IsNullOrWhiteSpace(e.EmailCliente))
+                if (string.IsNullOrWhiteSpace(e.Cliente.Email))
                     throw new EmailClienteException();
 
                 e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);

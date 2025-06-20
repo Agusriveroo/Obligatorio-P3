@@ -7,12 +7,14 @@ namespace WebApp.Models
     {
         public DTOAltaEnvio Dto { get; set; }
 
-        public List<SelectListItem> TiposEnvios { get; set;} = new List<SelectListItem>
-        {
-            new SelectListItem { Value = "comun", Text = "Comun" },
-            new SelectListItem { Value = "urgente", Text = "Urgente" }
-        };
+        public List<SelectListItem> TiposEnvios { get; set; } = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "comun", Text = "Comun" },
+        new SelectListItem { Value = "urgente", Text = "Urgente" }
+    };
 
         public List<SelectListItem> Agencias { get; set; } = new List<SelectListItem>();
+
+        public List<SelectListItem> Clientes { get; set; } = new List<SelectListItem>();
     }
 }

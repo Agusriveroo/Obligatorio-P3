@@ -58,6 +58,7 @@ namespace Libreria.WebApi
             builder.Services.AddScoped<ICUDeleteUsuario, CUDeleteUsuario>();
             builder.Services.AddScoped<ICUDetalleUsuario, CUDetalleUsuario>();
 
+
             //AGENCIA   
             builder.Services.AddScoped<ICUObtenerAgencias, CUObtenerAgencias>();
 
@@ -67,6 +68,7 @@ namespace Libreria.WebApi
             builder.Services.AddScoped<ICUEditarEnvio, CUEditarEnvio>();
             builder.Services.AddScoped<ICUObtenerEnvio, CUObtenerEnvio>();
             builder.Services.AddScoped<ICUObtenerEnvioPorTracking, CUObtenerEnvioPorTracking>();
+            builder.Services.AddScoped<ICUObtenerEnviosCliente, CUObtenerEnviosCliente>();
 
             //DETALLE ENVIO
             builder.Services.AddScoped<ICUAgregarComentario, CUAgregarComentario>();

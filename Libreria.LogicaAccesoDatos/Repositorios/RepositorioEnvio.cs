@@ -29,14 +29,35 @@ namespace Libreria.LogicaAccesoDatos.Repositorios
             throw new NotImplementedException();
         }
 
+        public List<Envio> GetByEmail(string email)
+        {
+            List<Envio> envios = _context.Envios
+                .Include(e => e.Cliente)
+                .Include(e => e.Empleado)
+                .Include(e => e.Detalles)
+                .Where(e => e.Cliente.Email == email)
+                .ToList();
+
+            return envios;
+        }
+
+
         public List<Envio> GetAll()
         {
-            return _context.Envios.ToList();
+            return _context.Envios
+                .Include(e => e.Cliente)
+                .Include(e => e.Detalles)
+                .ToList();
         }
+
 
         public Envio GetById(int id)
         {
-            return _context.Envios.Find(id);
+            return _context.Envios
+                .Include(e => e.Cliente)
+                .Include(e => e.Detalles)
+                .FirstOrDefault(e => e.Id == id);
+
         }
 
         public Envio GetByTracking(string tracking)

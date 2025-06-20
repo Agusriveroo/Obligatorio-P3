@@ -24,9 +24,10 @@ namespace WebApp.Controllers
         private ICUEditarEnvio _cUEditarEnvio;
         private ICUAgregarComentario _cUAgregarComentario;  
         private ICUObtenerDetalles _cUObtenerDetalles;
+        private ICUObtenerClientes _cUObtenerClientes;
 
 
-        public EnvioController(ICUObtenerAgencias cUObteneragencias, ICUAltaEnvio cUAltaEnvio, ICUListarEnvios cUListarEnvios, ICUObtenerEnvio cUObtenerEnvio, ICUEditarEnvio cUEditarEnvio, ICUAgregarComentario cUAgregarComentario, ICUObtenerDetalles cUObtenerDetalles)
+        public EnvioController(ICUObtenerAgencias cUObteneragencias, ICUAltaEnvio cUAltaEnvio, ICUListarEnvios cUListarEnvios, ICUObtenerEnvio cUObtenerEnvio, ICUEditarEnvio cUEditarEnvio, ICUAgregarComentario cUAgregarComentario, ICUObtenerDetalles cUObtenerDetalles, ICUObtenerClientes cUObtenerClientes)
         {
             _cUObteneragencias = cUObteneragencias;
             _cUAltaEnvio = cUAltaEnvio;
@@ -35,7 +36,7 @@ namespace WebApp.Controllers
             _cUEditarEnvio = cUEditarEnvio;
             _cUAgregarComentario = cUAgregarComentario;
             _cUObtenerDetalles = cUObtenerDetalles;
-
+            _cUObtenerClientes = cUObtenerClientes;
         }
 
         public IActionResult Index()
@@ -47,7 +48,20 @@ namespace WebApp.Controllers
         
         public IActionResult Create()
         {
+
+
             AltaEnvioViewModel vm = new AltaEnvioViewModel();
+
+            var clientes = _cUObtenerClientes.Ejecutar(); 
+
+            foreach (var c in clientes)
+            {
+                vm.Clientes.Add(new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = $"{c.Nombre} {c.Apellido}"
+                });
+            }
 
             foreach (var a in _cUObteneragencias.ObtenerAgencias()) 
             {

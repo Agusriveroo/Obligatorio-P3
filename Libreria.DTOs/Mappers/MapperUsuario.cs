@@ -61,24 +61,16 @@ namespace Libreria.DTOs.Mappers
 
 
         public static List<DTOListarEmpleado> FromListEmpleadoToListEmpleado(List<Usuario> usuarios) 
-        { 
-            List<DTOListarEmpleado> ret = new List<DTOListarEmpleado>();
-
-            foreach (Usuario u in usuarios) 
+        {
+            return usuarios.Select(u => new DTOListarEmpleado
             {
-                DTOListarEmpleado dto = new DTOListarEmpleado();
-                dto.Id = u.Id;
-                dto.Nombre = u.NombreCompleto.Nombre;
-                dto.Apellido = u.NombreCompleto.Apellido;
-                dto.Edad = u.Edad;
-                dto.Email = u.Email;
-                dto.Rol = u.Rol.ToString();
-
-                ret.Add(dto);
-
-
-            }
-            return ret;
+                Id = u.Id,
+                Nombre = u.NombreCompleto.Nombre,
+                Apellido = u.NombreCompleto.Apellido,
+                Edad = u.Edad,
+                Email = u.Email,
+                Rol = u.Rol.ToString()
+            }).ToList();
 
         }
     }

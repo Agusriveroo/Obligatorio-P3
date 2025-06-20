@@ -16,11 +16,11 @@ namespace Libreria.LogicaNegocio.Entidades
         public string? NumeroTracking { get; set; }
 
         public int? EmpleadoId { get; set; }
-        public Usuario? Empleado { get; set; }  
+        public Usuario? Empleado { get; set; }
 
-        //public int ClienteId { get; set; }
-        public string EmailCliente { get; set; } 
-
+        public int ClienteId { get; set; }
+        public Usuario Cliente { get; set; }
+       
         public double PesoPaquete { get; set; }
 
         public EstadoEnvio Estado { get; set; } = EstadoEnvio.EN_PROCESO;
@@ -34,10 +34,10 @@ namespace Libreria.LogicaNegocio.Entidades
             
         }
 
-        public Envio(Usuario? empleado, string emailCliente, double pesoPaquete, EstadoEnvio estado)
+        public Envio(Usuario? empleado, Usuario cliente, double pesoPaquete, EstadoEnvio estado)
         {
             Empleado = empleado;
-            EmailCliente = emailCliente;
+            Cliente = cliente;
             PesoPaquete = pesoPaquete;
             Estado = estado;
             NumeroTracking = Guid.NewGuid().ToString();

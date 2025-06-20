@@ -1,4 +1,5 @@
 ﻿using Libreria.LogicaNegocio.Entidades;
+using Libreria.LogicaNegocio.Enum;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,15 @@ namespace Libreria.LogicaAccesoDatos.Repositorios
         public Usuario GetById(int id)
         {   
             return _context.Usuarios.Find(id);
+        }
+
+        public List<Usuario> ObtenerClientes()
+        {
+            return _context.Usuarios
+            .Where(u => u.Rol == RolUsuario.Cliente)
+            .OrderBy(u => u.NombreCompleto.Apellido)
+            .ThenBy(u => u.NombreCompleto.Nombre)
+            .ToList();
         }
 
         public int Update(Usuario u)

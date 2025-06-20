@@ -29,15 +29,20 @@ namespace Libreria.WebApi.Controllers
         {
             try
             {
-
-                DTOUsuario b = _cuLogin.VerificarDatos(new DTOUsuario() { Email = dto.Email, Password = dto.Password });
-               
+                DTOUsuario login = new DTOUsuario()
+                {
+                    Email = dto.Email,
+                    Password = dto.Password
+                };
+                DTOUsuario b = _cuLogin.VerificarDatos(login);
+                       
                 var clave = "UTzl^7yPl$5xrT6&{7RZCSG&O42MEK89$CW1XXRrN(> XqIp{W4s2S5$> KT$6CG!2M]'ZlrqH-t%eI4.X9W~u#qO+oX£+[?7QDAa"; 
                 var claveCodificada = new
                 SymmetricSecurityKey(Encoding.UTF8.GetBytes(clave));
                     List<Claim> claims = [
-                //    new Claim(ClaimTypes.Email, b.Email), 
-                        new Claim(ClaimTypes.Role, b.Rol)
+                        new Claim(ClaimTypes.Email, b.Email),
+                        new Claim(ClaimTypes.Role, b.Rol.ToString()),
+                        //new Claim(ClaimTypes.Sid, b.Id.ToString())
                     ];
                 var credenciales = new SigningCredentials(claveCodificada,
                 SecurityAlgorithms.HmacSha512Signature);
@@ -56,5 +61,5 @@ namespace Libreria.WebApi.Controllers
         }
 
 
-    }
 }
+
