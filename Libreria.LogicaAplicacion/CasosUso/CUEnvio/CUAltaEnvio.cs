@@ -21,6 +21,7 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
         private IRepositorioUsuario _repoUsuario;
         private IRepositorioAuditoria _repoAuditoria;
 
+
         public CUAltaEnvio(IRepositorioEnvio repositorioEnvio, IRepositorioAgencia repoAgencia, IRepositorioUsuario repoUsuario, IRepositorioAuditoria repoAuditoria)
         {
             _repositorioEnvio = repositorioEnvio;
@@ -40,11 +41,14 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
                     empleado = _repoUsuario.GetById(dto.LogueadoId.Value);
                 }
 
+                Usuario cliente = _repoUsuario.GetById(dto.ClienteId);
+                if (cliente == null)
+                {
+                    throw new Exception("Cliente no encontrado con Id: " + dto.ClienteId);
+                }
 
 
-                string emailCliente = dto.EmailCliente;
-
-                Envio e = MapperEnvio.FromDtoAltaEnvioToEnvio(dto, emailCliente, empleado, agenciaRetiro);
+                Envio e = MapperEnvio.FromDtoAltaEnvioToEnvio(dto, cliente, empleado, agenciaRetiro);
 
                 int idEntidad = _repositorioEnvio.Add(e);
 
