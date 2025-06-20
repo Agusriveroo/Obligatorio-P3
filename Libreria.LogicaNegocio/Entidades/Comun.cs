@@ -13,8 +13,8 @@ namespace Libreria.LogicaNegocio.Entidades
         public Agencia AgenciaRetiro { get; set; }
 
 
-        public Comun(Agencia agenciaRetiro, Usuario? empleado, string clienteEmail, double pesoPaquete, EstadoEnvio estado)
-            : base(empleado, clienteEmail, pesoPaquete, estado) 
+        public Comun(Agencia agenciaRetiro, Usuario? empleado, Usuario cliente, double pesoPaquete, EstadoEnvio estado)
+            : base(empleado, cliente, pesoPaquete, estado) 
         {
             AgenciaRetiro = agenciaRetiro;
         }

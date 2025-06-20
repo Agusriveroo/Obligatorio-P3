@@ -13,7 +13,7 @@ namespace Libreria.DTOs.DTOs.DTOsEnvio
         public int Id { get; set; }
         public int? EmpleadoId { get; set; } // quien está logueado y genera el envío
 
-
+        public int ClienteId { get; set; }
         public string EmailCliente { get; set; }
 
         public double PesoPaquete { get; set; }

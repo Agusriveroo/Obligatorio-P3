@@ -40,8 +40,9 @@ namespace Libreria.WebApi.Controllers
                 var claveCodificada = new
                 SymmetricSecurityKey(Encoding.UTF8.GetBytes(clave));
                     List<Claim> claims = [
-                        new Claim(ClaimTypes.Email, b.Email), 
-                        new Claim(ClaimTypes.Role, b.Rol)
+                        new Claim(ClaimTypes.Email, b.Email),
+                        new Claim(ClaimTypes.Role, b.Rol.ToString()),
+                        //new Claim(ClaimTypes.Sid, b.Id.ToString())
                     ];
                 var credenciales = new SigningCredentials(claveCodificada,
                 SecurityAlgorithms.HmacSha512Signature);
@@ -59,7 +60,7 @@ namespace Libreria.WebApi.Controllers
 
     
 
-    }
+}
 
 
 }

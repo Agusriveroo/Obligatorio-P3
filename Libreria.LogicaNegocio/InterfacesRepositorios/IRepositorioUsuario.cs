@@ -10,5 +10,7 @@ namespace Libreria.LogicaNegocio.InterfacesRepositorios
     public interface IRepositorioUsuario : IRepositorio<Usuario>
     {
         Usuario FindByEmail(string email);
+
+        List<Usuario> ObtenerClientes();
     }
 }

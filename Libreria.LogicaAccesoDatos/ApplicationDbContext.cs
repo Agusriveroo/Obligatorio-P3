@@ -27,17 +27,19 @@ namespace Libreria.LogicaAccesoDatos
         {
             base.OnModelCreating(modelBuilder);
 
-           modelBuilder.Entity<Envio>()
+            modelBuilder.Entity<Envio>()
                 .HasOne(e => e.Empleado)
                 .WithMany()
                 .HasForeignKey(e => e.EmpleadoId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.Restrict); 
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Envio>()
-                .Property(e => e.EmailCliente)
-                .IsRequired()  
-                .HasMaxLength(256);
+                .HasOne(e => e.Cliente)
+                .WithMany()
+                .HasForeignKey(e => e.ClienteId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Envio>()
                 .Property(e => e.Estado)
@@ -45,6 +47,10 @@ namespace Libreria.LogicaAccesoDatos
 
             modelBuilder.Entity<Usuario>(entity =>
             {
+                entity.Property(u => u.Email)
+                    .IsRequired()
+                    .HasMaxLength(256);
+
                 entity.OwnsOne(u => u.NombreCompleto, vo =>
                 {
                     vo.Property(v => v.Nombre).HasColumnName("Nombre");
@@ -61,6 +67,7 @@ namespace Libreria.LogicaAccesoDatos
                 });
             });
         }
+
 
     }
 }

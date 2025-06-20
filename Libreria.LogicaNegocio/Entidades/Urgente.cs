@@ -13,7 +13,7 @@ namespace Libreria.LogicaNegocio.Entidades
 
         public int? ValorEficiencia { get; set; }
 
-        public Urgente(string direccionPostal, int? valorEficiencia, Usuario? empleado, string clienteEmail, double pesoPaquete, EstadoEnvio estado) :base(empleado, clienteEmail, pesoPaquete, estado)
+        public Urgente(string direccionPostal, int? valorEficiencia, Usuario? empleado, Usuario cliente, double pesoPaquete, EstadoEnvio estado) :base(empleado, cliente, pesoPaquete, estado)
         {
             DireccionPostal = direccionPostal;
             ValorEficiencia = valorEficiencia;

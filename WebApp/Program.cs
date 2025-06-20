@@ -50,6 +50,7 @@ namespace WebApp
             builder.Services.AddScoped<ICUActualizarUsuario, CUActualizarUsuario>();
             builder.Services.AddScoped<ICUDeleteUsuario,CUDeleteUsuario>();
             builder.Services.AddScoped<ICUDetalleUsuario, CUDetalleUsuario>();
+            builder.Services.AddScoped<ICUObtenerClientes, CUObtenerClientes>();
 
             //AGENCIA   
             builder.Services.AddScoped<ICUObtenerAgencias, CUObtenerAgencias>();
@@ -60,6 +61,7 @@ namespace WebApp
             builder.Services.AddScoped<ICUEditarEnvio, CUEditarEnvio>();
             builder.Services.AddScoped<ICUObtenerEnvio, CUObtenerEnvio>();
             builder.Services.AddScoped<ICUObtenerEnvioPorTracking, CUObtenerEnvioPorTracking>();
+            builder.Services.AddScoped<ICUObtenerEnviosCliente, CUObtenerEnviosCliente>();
 
             //DETALLE ENVIO
             builder.Services.AddScoped<ICUAgregarComentario, CUAgregarComentario>();
