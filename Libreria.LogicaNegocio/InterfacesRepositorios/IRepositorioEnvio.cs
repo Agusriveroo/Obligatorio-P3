@@ -1,4 +1,5 @@
 ﻿using Libreria.LogicaNegocio.Entidades;
+using Libreria.LogicaNegocio.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Libreria.LogicaNegocio.InterfacesRepositorios
         Envio GetByTracking(string tracking);
 
         List<Envio> GetByEmail(string email);
+
+        List<Envio> GetByIdFechas(int clienteId, DateTime f1, DateTime f2, EstadoEnvio? estado);
     }
 }

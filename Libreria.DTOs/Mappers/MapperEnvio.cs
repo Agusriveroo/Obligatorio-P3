@@ -52,18 +52,22 @@ namespace Libreria.DTOs.Mappers
             return ret;
         }
 
-        public static Envio FromDtoEnvioToEnvio(DTOListarEnvio dto) { 
-        
+        public static Envio FromDtoEnvioToEnvio(DTOListarEnvio dto) {
+
+            if (dto.IdEnvio == 0)
+                throw new ArgumentException("IdEnvio no puede ser 0");
+
             Envio e = new Envio();
             e.Id = dto.IdEnvio;
             e.EmpleadoId = dto.LogueadoId;
-            e.Cliente.Email = dto.EmailCliente;
+            e.ClienteId = dto.ClienteId;
             e.PesoPaquete = dto.PesoPaquete;
-            e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);
+            if (dto.MarcarFinalizado)
+                e.Estado = EstadoEnvio.FINALIZADO;
+            else
+                e.Estado = EstadoEnvio.EN_PROCESO;
             e.Fecha = dto.FechaFinalizacion;
             return e;
-
-
         }
 
         public static DTOListarEnvio FromEnvioToDto(Envio e)
@@ -102,7 +106,21 @@ namespace Libreria.DTOs.Mappers
         
         }
 
-     
+
+        public static List<DTOListaEnvioSimple> FromListaEnvio(List<Envio> envios) 
+        {
+            List<DTOListaEnvioSimple> ret = new List<DTOListaEnvioSimple>();
+
+            return envios.Select(e => new DTOListaEnvioSimple
+            {
+                NumeroTracking = e.NumeroTracking,
+                PesoPaquete = e.PesoPaquete,
+                Estado = e.Estado.ToString(),
+                FechaCreacion = e.Fecha,
+            }).ToList();
+
+        }
+
 
 
 

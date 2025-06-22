@@ -27,7 +27,7 @@ namespace Libreria.LogicaNegocio.Entidades
 
         public List<DetalleEnvio> Detalles { get; set; } = new List<DetalleEnvio>();
 
-        public DateTime? Fecha{ get; set; } = DateTime.Now;
+        public DateTime Fecha{ get; set; } = DateTime.Now;
 
         public Envio()
         {

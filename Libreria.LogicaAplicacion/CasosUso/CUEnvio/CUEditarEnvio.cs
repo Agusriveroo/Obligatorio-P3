@@ -32,8 +32,7 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
             {
                 
                 Envio e = MapperEnvio.FromDtoEnvioToEnvio(dto);
-                if (string.IsNullOrWhiteSpace(e.Cliente.Email))
-                    throw new EmailClienteException();
+                
 
                 e.Estado = Enum.Parse<EstadoEnvio>(dto.Estado);
                 int r = _repoEnvio.Update(e);
@@ -45,6 +44,7 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUEnvio
             }
             catch (Exception e)
             {
+               
                 RegistroAuditoria aud = new RegistroAuditoria(dto.LogueadoId, AccionesAuditoria.ACTUALIZAR, "Envio", null, "ERROR:" + e.Message);
                 _repositorioAuditoria.Auditar(aud);
                 throw;

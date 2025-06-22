@@ -69,6 +69,7 @@ namespace Libreria.WebApi
             builder.Services.AddScoped<ICUObtenerEnvio, CUObtenerEnvio>();
             builder.Services.AddScoped<ICUObtenerEnvioPorTracking, CUObtenerEnvioPorTracking>();
             builder.Services.AddScoped<ICUObtenerEnviosCliente, CUObtenerEnviosCliente>();
+            builder.Services.AddScoped<ICUObtenerEnviosFechas, CUObtenerEnviosFechas>();
 
             //DETALLE ENVIO
             builder.Services.AddScoped<ICUAgregarComentario, CUAgregarComentario>();
