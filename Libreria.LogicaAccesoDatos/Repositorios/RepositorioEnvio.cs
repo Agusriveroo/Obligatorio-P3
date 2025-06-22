@@ -1,4 +1,5 @@
 ﻿using Libreria.LogicaNegocio.Entidades;
+using Libreria.LogicaNegocio.Enum;
 using Libreria.LogicaNegocio.InterfacesRepositorios;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -62,14 +63,35 @@ namespace Libreria.LogicaAccesoDatos.Repositorios
 
         public Envio GetByTracking(string tracking)
         {
-            return _context.Envios.Include(e => e.Detalles).FirstOrDefault(e => e.NumeroTracking == tracking);
+            return _context.Envios
+                                .Include(e => e.Cliente)   
+                                .Include(e => e.Detalles)
+                                .FirstOrDefault(e => e.NumeroTracking == tracking);
         }
 
         public int Update(Envio e)
         {
-            _context.Envios.Update(e);
+            var envioExistente = _context.Envios.Find(e.Id);
+
+            envioExistente.Estado = e.Estado;
+          
             _context.SaveChanges();
-            return e.Id;
+
+            return envioExistente.Id;
+        }
+
+        public List<Envio> GetByIdFechas(int clienteId, DateTime f1, DateTime f2, EstadoEnvio? estado)
+        {
+            var ret = _context.Envios
+                .Include(e => e.Cliente)
+                .Where(e => e.ClienteId == clienteId && e.Fecha.Date >= f1.Date && e.Fecha.Date <= f2.Date.AddDays(1));
+
+            if (estado.HasValue) 
+            { 
+                ret = ret.Where(e => e.Estado == estado.Value);
+            }
+
+            return ret.OrderBy(e => e.NumeroTracking).ToList();
         }
     }
 }

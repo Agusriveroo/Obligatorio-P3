@@ -42,7 +42,8 @@ namespace Libreria.WebApi.Controllers
                     List<Claim> claims = [
                         new Claim(ClaimTypes.Email, b.Email),
                         new Claim(ClaimTypes.Role, b.Rol.ToString()),
-                        //new Claim(ClaimTypes.Sid, b.Id.ToString())
+                        new Claim(ClaimTypes.Name, b.Nombre),
+                        new Claim(ClaimTypes.NameIdentifier, b.Id.ToString())
                     ];
                 var credenciales = new SigningCredentials(claveCodificada,
                 SecurityAlgorithms.HmacSha512Signature);
@@ -57,8 +58,10 @@ namespace Libreria.WebApi.Controllers
                 return Unauthorized();
             }
         }
-        
-        }
+
+    
+
+}
 
 
 }

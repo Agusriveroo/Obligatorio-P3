@@ -8,7 +8,7 @@ namespace Libreria.LogicaNegocio.Enum
 {
     public enum EstadoEnvio
     {
-        EN_PROCESO,
-        FINALIZADO
+        EN_PROCESO = 0,
+        FINALIZADO = 1,
     }
 }
