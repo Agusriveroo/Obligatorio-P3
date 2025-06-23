@@ -18,23 +18,25 @@ namespace Libreria.WebApi.Controllers
     [ApiController]
     public class EnvioController : ControllerBase
     {
-   
+
         private ICUObtenerEnvioPorTracking _cUObtenerEnvioPorTracking;
         private ICUObtenerEnviosCliente _cUObtenerEnviosCliente;
         private ICUObtenerDetalles _cUObtenerDetalles;
         private ICUObtenerEnvio _cUObtenerEnvio;
         private ICUObtenerEnviosFechas _cUObtenerEnviosFechas;
+        private ICUObtenerEnviosPorComentario _cUObtenerEnviosPorComentario;
 
 
-        public EnvioController(ICUObtenerEnvioPorTracking cUObtenerEnvioPorTracking, ICUObtenerEnviosCliente cUObtenerEnviosCliente, ICUObtenerDetalles cUObtenerDetalles,ICUObtenerEnvio cUObtenerEnvio, ICUObtenerEnviosFechas cUObtenerEnviosFechas)
+        public EnvioController(ICUObtenerEnvioPorTracking cUObtenerEnvioPorTracking, ICUObtenerEnviosCliente cUObtenerEnviosCliente, ICUObtenerDetalles cUObtenerDetalles, ICUObtenerEnvio cUObtenerEnvio, ICUObtenerEnviosFechas cUObtenerEnviosFechas, ICUObtenerEnviosPorComentario cUObtenerEnviosPorComentario)
         {
-           
-      
+
+
             _cUObtenerEnvioPorTracking = cUObtenerEnvioPorTracking;
             _cUObtenerEnviosCliente = cUObtenerEnviosCliente;
             _cUObtenerDetalles = cUObtenerDetalles;
             _cUObtenerEnvio = cUObtenerEnvio;
             _cUObtenerEnviosFechas = cUObtenerEnviosFechas;
+            _cUObtenerEnviosPorComentario = cUObtenerEnviosPorComentario;
 
         }
 
@@ -66,7 +68,7 @@ namespace Libreria.WebApi.Controllers
 
         [HttpGet("misenvios")]
         [Authorize(Roles = "Cliente")]
-        public IActionResult GetEnviosDeUsuario() 
+        public IActionResult GetEnviosDeUsuario()
         {
             string email = EmailUsuarioLogueado();
             try
@@ -80,13 +82,13 @@ namespace Libreria.WebApi.Controllers
             }
         }
 
-        private string EmailUsuarioLogueado() 
+        private string EmailUsuarioLogueado()
         {
             string email = null;
 
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            if (claimsIdentity != null) 
-            { 
+            if (claimsIdentity != null)
+            {
                 var emailClaim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
                 email = emailClaim.Value;
             }
@@ -102,7 +104,7 @@ namespace Libreria.WebApi.Controllers
             if (envio == null)
                 return NotFound($"No se encontró un envío con ID {id}");
 
-            var detalles = _cUObtenerDetalles.ObtenerDetalles(id); 
+            var detalles = _cUObtenerDetalles.ObtenerDetalles(id);
 
             var envioConDetalles = new DTOEnvioConDetalles
             {
@@ -114,7 +116,7 @@ namespace Libreria.WebApi.Controllers
                 {
                     Comentario = d.Comentario,
                     Fecha = d.Fecha,
-                 
+
                 }).ToList()
             };
 
@@ -122,14 +124,14 @@ namespace Libreria.WebApi.Controllers
         }
 
 
-        private int ObtenerIdUsuarioLogueado() 
+        private int ObtenerIdUsuarioLogueado()
         {
             int id = 0;
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            if (claimsIdentity != null) 
-            { 
+            if (claimsIdentity != null)
+            {
                 var idClaim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                if (idClaim != null) 
+                if (idClaim != null)
                 {
                     id = int.Parse(idClaim.Value);
                 }
@@ -141,22 +143,39 @@ namespace Libreria.WebApi.Controllers
 
         [HttpGet("filtrofechas")]
         [Authorize(Roles = "Cliente")]
-        public IActionResult GetEnviosUsuarioFechas(DateTime f1, DateTime f2, EstadoEnvio ? estado) 
+        public IActionResult GetEnviosUsuarioFechas(DateTime f1, DateTime f2, EstadoEnvio? estado)
         {
             int idLogueado = ObtenerIdUsuarioLogueado();
 
-            try 
-            { 
+            try
+            {
                 List<DTOListaEnvioSimple> lf = _cUObtenerEnviosFechas.Ejecutar(f1, f2, estado, idLogueado);
                 return Ok(lf);
 
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 return StatusCode(500, "Error inesperado, intente más tarde");
             }
         }
 
 
+        [HttpGet("filtrocomentarios")]
+        [Authorize(Roles = "Cliente")]
+        public IActionResult GetEnviosPorComentario(string palabra)
+        {
+            int idLogueado = ObtenerIdUsuarioLogueado();
+            try
+            {
+                List<DTOListaEnvioSimple> lf = _cUObtenerEnviosPorComentario.Ejecutar(palabra, idLogueado);
+                return Ok(lf);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Error inesperado, intente más tarde");
+            }
+
+
+        }
     }
 }

@@ -15,5 +15,7 @@ namespace Libreria.LogicaNegocio.InterfacesRepositorios
         List<Envio> GetByEmail(string email);
 
         List<Envio> GetByIdFechas(int clienteId, DateTime f1, DateTime f2, EstadoEnvio? estado);
+
+        List<Envio> BuscarPorComentario(string palabra, int clienteId);
     }
 }

@@ -93,5 +93,19 @@ namespace Libreria.LogicaAccesoDatos.Repositorios
 
             return ret.OrderBy(e => e.NumeroTracking).ToList();
         }
+
+        public List<Envio> BuscarPorComentario(string palabra, int clienteId)
+        {
+
+            if (string.IsNullOrWhiteSpace(palabra))
+                return new List<Envio>();
+
+            return _context.Envios
+                .Include(e => e.Cliente)
+                .Include(e => e.Detalles)
+                .Where(e => e.ClienteId == clienteId && e.Detalles.Any(d => d.Comentario.ToLower().Contains(palabra)))
+                .OrderBy(e => e.Fecha)
+                .ToList();
+        }
     }
 }
