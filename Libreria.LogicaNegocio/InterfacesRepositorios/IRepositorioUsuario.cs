@@ -12,5 +12,7 @@ namespace Libreria.LogicaNegocio.InterfacesRepositorios
         Usuario FindByEmail(string email);
 
         List<Usuario> ObtenerClientes();
+
+        void UpdatePassword(int idUsuario, string nuevaPass);
     }
 }

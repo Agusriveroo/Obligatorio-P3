@@ -65,5 +65,21 @@ namespace Libreria.LogicaAccesoDatos.Repositorios
             _context.SaveChanges();
             return u.Id;
         }
+
+        public void UpdatePassword(int id, string newPassword)
+        {
+            var usuario = _context.Usuarios.FirstOrDefault(x => x.Id == id);
+
+            if (usuario != null)
+            {
+                usuario.Password = newPassword;
+                _context.Usuarios.Update(usuario);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Usuario no encontrado");
+            }
+        }
     }
 }

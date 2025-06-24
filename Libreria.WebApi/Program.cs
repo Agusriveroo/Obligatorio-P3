@@ -57,6 +57,7 @@ namespace Libreria.WebApi
             builder.Services.AddScoped<ICUActualizarUsuario, CUActualizarUsuario>();
             builder.Services.AddScoped<ICUDeleteUsuario, CUDeleteUsuario>();
             builder.Services.AddScoped<ICUDetalleUsuario, CUDetalleUsuario>();
+            builder.Services.AddScoped<ICUCambiarPassword,CUCambiarPassword>();
 
 
             //AGENCIA   

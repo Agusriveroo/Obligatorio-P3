@@ -34,8 +34,9 @@ namespace Libreria.LogicaAplicacion.CasosUso.CUUsuario
             else
             {
                 throw new Exception("Usuario o contraseña incorrectos");
-                //TODO Agregar excepcion propia
+                
             }
+
         }
     }
 }
