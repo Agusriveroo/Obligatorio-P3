@@ -1,4 +1,5 @@
-﻿using Libreria.LogicaAplicacion.ICasosUso.ICUUsuario;
+﻿using Libreria.DTOs.DTOs.DTOsUsuario;
+using Libreria.LogicaAplicacion.ICasosUso.ICUUsuario;
 using Libreria.LogicaNegocio.CustomExceptions.UsuarioExceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -44,18 +45,18 @@ namespace Libreria.WebApi.Controllers
 
         [HttpPost("cambiarContraseña")]
         [Authorize(Roles = "Cliente")]
-        public IActionResult CambiarPassword(string cActual, string cNueva)
+        public IActionResult CambiarPassword([FromBody] DTOCambiarPassword dto)
         {
             int logId = ObtenerIdUsuarioLogueado();
 
-            if (string.IsNullOrEmpty(cActual) || string.IsNullOrEmpty(cNueva)) 
+            if (string.IsNullOrEmpty(dto.CActual) || string.IsNullOrEmpty(dto.CNueva)) 
             {
                 return BadRequest("Debe ingresar la contraseña actual y la nueva.");
             }
 
             try
             {
-                _cuCambiarPassword.Ejecutar(logId, cActual, cNueva);
+                _cuCambiarPassword.Ejecutar(logId, dto.CActual, dto.CNueva);
                 return Ok("Contraseña cambiada correctamente");
             }
             catch (PasswordIncorrectaException)
